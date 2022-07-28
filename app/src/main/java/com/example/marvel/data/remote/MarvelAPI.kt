@@ -1,6 +1,5 @@
 package com.example.marvel.data.remote
 
-import com.example.marvel.R
 import com.example.marvel.data.remote.responses.CharacterDataWrapper
 import retrofit2.Response
 import retrofit2.http.GET
