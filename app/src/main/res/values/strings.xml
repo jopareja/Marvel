@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Marvel</string>
+    <string name="superhero_image">Imágen del Superhéroe</string>
 </resources>
