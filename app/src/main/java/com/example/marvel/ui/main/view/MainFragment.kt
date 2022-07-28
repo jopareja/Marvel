@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.marvel.R
 import com.example.marvel.ui.main.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
 
-    private lateinit var viewModel: MainViewModel
+    //private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
