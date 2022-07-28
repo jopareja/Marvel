@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Marvel</string>
     <string name="superhero_image">Imágen del Superhéroe</string>
+    <string name="public_key">7d81013872ce36a712ff431dfcee42a7</string>
+    <string name="private_key">c1a7690d21b6c2e17d48412256f7ddc6107bd2e2</string>
 </resources>
