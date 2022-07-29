@@ -3,6 +3,7 @@ package com.example.marvel.ui.main.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.marvel.databinding.ViewHolderItemBinding
 import com.example.marvel.domain.data.Character
+import com.example.marvel.ui.main.view.MainFragmentDirections
 
 class CharacterAdapter: ListAdapter<Character, CharacterAdapter.CharacterViewHolder>(DiffCallBack) {
 
@@ -23,6 +25,10 @@ class CharacterAdapter: ListAdapter<Character, CharacterAdapter.CharacterViewHol
                 .into(binding.ivSuperhero)
             binding.tvSuperhero.text = character.title
             binding.tvSuperHeroDescription.text = character.description
+            binding.cvMain.setOnClickListener {
+                val action = MainFragmentDirections.actionMainFragmentToComicsFragment()
+                binding.cvMain.findNavController().navigate(action)
+            }
         }
     }
 

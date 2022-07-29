@@ -9,5 +9,13 @@
         android:id="@+id/mainFragment"
         android:name="com.example.marvel.ui.main.view.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_comicsFragment"
+            app:destination="@id/comicsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/comicsFragment"
+        android:name="com.example.marvel.ui.comics.view.ComicsFragment"
+        android:label="ComicsFragment" />
 </navigation>
