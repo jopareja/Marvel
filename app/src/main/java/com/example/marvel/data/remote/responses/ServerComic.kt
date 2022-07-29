@@ -1,5 +1,5 @@
 package com.example.marvel.data.remote.responses
 
-data class ComicList(
+data class ServerComic(
     val items: List<ComicSummary>
 )
