@@ -2,6 +2,7 @@ package com.example.marvel.data.remote
 
 import android.util.Log
 import com.example.marvel.data.remote.responses.ServerCharacter
+import com.example.marvel.data.remote.responses.getComics.ServerComic
 import com.example.marvel.data.repositories.RemoteProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,6 +16,13 @@ class RemoteClient @Inject constructor(private val api: MarvelAPI) : RemoteProvi
     override suspend fun getCharacters(): List<ServerCharacter> {
         return withContext(Dispatchers.IO) {
             val data = api.getCharacters(timeStamp, PUBLIC_KEY, toMD5())
+            data.body()?.data?.results ?: emptyList()
+        }
+    }
+
+    override suspend fun getComics(characterId: Int): List<ServerComic> {
+        return withContext(Dispatchers.IO) {
+            val data = api.getComics(characterId, timeStamp, PUBLIC_KEY, toMD5())
             data.body()?.data?.results ?: emptyList()
         }
     }

@@ -18,6 +18,9 @@ interface MarvelAPI {
 
     @GET("v1/public/characters/{characterId}/comics")
     suspend fun getComics(
-        @Path(value = "characterId", encoded = true) characterId: Int
+        @Path(value = "characterId", encoded = true) characterId: Int,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash: String
     ): Response<ComicDataWrapper>
 }
