@@ -19,14 +19,15 @@ class CharacterAdapter: ListAdapter<Character, CharacterAdapter.CharacterViewHol
         private var binding: ViewHolderItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(character: Character) {
-            Log.d("JOSE", character.comics.toString())
             Glide.with(itemView).load(character.imageUrl)
                 .transform(CenterCrop())
                 .into(binding.ivSuperhero)
             binding.tvSuperhero.text = character.title
             binding.tvSuperHeroDescription.text = character.description
             binding.cvMain.setOnClickListener {
-                val action = MainFragmentDirections.actionMainFragmentToComicsFragment()
+                val action = MainFragmentDirections.actionMainFragmentToComicsFragment(
+                    id = character.id
+                )
                 binding.cvMain.findNavController().navigate(action)
             }
         }
