@@ -28,25 +28,25 @@ class ComicsFragment : Fragment() {
         _binding = FragmentComicsBinding.inflate(inflater, container, false)
         comicsAdapter = ComicsAdapter()
         binding.rvComics.adapter = comicsAdapter
-        catchArguments()
         return binding.root
-    }
-
-    private fun catchArguments() {
-        arguments?.let {
-            it.getInt(ID).let { it2 ->
-                Log.d("JOSE", "$it2")
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val exampleId = 1011334
-        viewModel.getComics(exampleId)
+        viewModel.getComics(provideId())
         viewModel.comicList.observe(viewLifecycleOwner) { currentList ->
             comicsAdapter.submitList(currentList)
         }
+    }
+
+    private fun provideId(): Int {
+        var characterId: Int = 1011334
+        arguments?.let {
+            it.getInt(ID).let { it2 ->
+                characterId = it2
+            }
+        }
+        return characterId
     }
 
     companion object {
