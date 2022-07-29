@@ -22,6 +22,7 @@ class CharacterAdapter: ListAdapter<Character, CharacterAdapter.CharacterViewHol
                 .transform(CenterCrop())
                 .into(binding.ivSuperhero)
             binding.tvSuperhero.text = character.title
+            binding.tvSuperHeroDescription.text = character.description
         }
     }
 
