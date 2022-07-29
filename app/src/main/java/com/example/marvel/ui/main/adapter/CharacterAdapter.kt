@@ -29,9 +29,6 @@ class CharacterAdapter: ListAdapter<Character, CharacterAdapter.CharacterViewHol
                 val action = MainFragmentDirections.actionMainFragmentToComicsFragment()
                 binding.cvMain.findNavController().navigate(action)
             }
-            character.comics.forEach { it ->
-                it.imageUrl
-            }
         }
     }
 
