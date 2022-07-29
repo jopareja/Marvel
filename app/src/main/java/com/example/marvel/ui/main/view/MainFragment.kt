@@ -14,7 +14,6 @@ import com.example.marvel.ui.main.adapter.CharacterAdapter
 import com.example.marvel.ui.main.viewmodel.HttpStatus
 import com.example.marvel.ui.main.viewmodel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +40,6 @@ class MainFragment : Fragment() {
         Log.d("JOSE", "hace llamada")
         viewModel.characterList.observe(viewLifecycleOwner) { currentList ->
             if (currentList.isNullOrEmpty()) {
-                Log.d("JOSE", "es null or empty")
                 showDialog()
             } else {
                 characterAdapter.submitList(currentList)

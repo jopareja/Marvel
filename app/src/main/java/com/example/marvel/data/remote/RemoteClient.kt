@@ -15,7 +15,6 @@ class RemoteClient @Inject constructor(private val api: MarvelAPI) : RemoteProvi
     override suspend fun getCharacters(): List<ServerCharacter> {
         return withContext(Dispatchers.IO) {
             val data = api.getCharacters(timeStamp, PUBLIC_KEY, toMD5())
-            Log.d("JOSE", "$data")
             data.body()?.data?.results ?: emptyList()
         }
     }
