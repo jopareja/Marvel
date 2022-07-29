@@ -1,5 +1,6 @@
 package com.example.marvel.data.remote
 
+import android.util.Log
 import com.example.marvel.data.remote.responses.ServerCharacter
 import com.example.marvel.data.repositories.RemoteProvider
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +15,7 @@ class RemoteClient @Inject constructor(private val api: MarvelAPI) : RemoteProvi
     override suspend fun getCharacters(): List<ServerCharacter> {
         return withContext(Dispatchers.IO) {
             val data = api.getCharacters(timeStamp, PUBLIC_KEY, toMD5())
+            Log.d("JOSE", "$data")
             data.body()?.data?.results ?: emptyList()
         }
     }
@@ -21,10 +23,10 @@ class RemoteClient @Inject constructor(private val api: MarvelAPI) : RemoteProvi
     private val timeStamp = Timestamp(System.currentTimeMillis()).time.toString()
 
     private fun toMD5() : String {
-        val input = "$timeStamp$PUBLIC_KEY$PRIVATE_KEY"
+        val input = "$timeStamp$PRIVATE_KEY$PUBLIC_KEY"
         val md = MessageDigest.getInstance("MD5")
-        val byte = md.digest(input.toByteArray())
-        return BigInteger(1, byte).toString(16).padStart(32, '0')
+        return BigInteger(1, md.digest(input.toByteArray()))
+            .toString(16).padStart(32, '0')
     }
 
     companion object {
