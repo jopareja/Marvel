@@ -26,7 +26,9 @@ class CharacterAdapter: ListAdapter<Character, CharacterAdapter.CharacterViewHol
             binding.tvSuperhero.text = character.title
             binding.tvSuperHeroDescription.text = character.description
             binding.cvMain.setOnClickListener {
-                val action = MainFragmentDirections.actionMainFragmentToComicsFragment()
+                val action = MainFragmentDirections.actionMainFragmentToComicsFragment(
+                    comics = character.comics.toTypedArray()
+                )
                 binding.cvMain.findNavController().navigate(action)
             }
         }

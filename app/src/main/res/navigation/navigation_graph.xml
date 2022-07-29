@@ -17,5 +17,9 @@
     <fragment
         android:id="@+id/comicsFragment"
         android:name="com.example.marvel.ui.comics.view.ComicsFragment"
-        android:label="ComicsFragment" />
+        android:label="ComicsFragment" >
+        <argument
+            android:name="comics"
+            app:argType="com.example.marvel.domain.data.Comic[]" />
+    </fragment>
 </navigation>
