@@ -1,8 +1,7 @@
 package com.example.marvel.data.remote
 
-import android.util.Log
-import com.example.marvel.data.remote.responses.ServerCharacter
-import com.example.marvel.data.remote.responses.getComics.ServerComic
+import com.example.marvel.data.remote.responses.characters.ServerCharacter
+import com.example.marvel.data.remote.responses.comics.ServerComic
 import com.example.marvel.data.repositories.RemoteProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marvel.data.remote.responses.getComics.ServerComic
+import com.example.marvel.data.remote.responses.comics.ServerComic
 import com.example.marvel.domain.usecase.GetComicsUseCase
 import com.example.marvel.ui.main.viewmodel.HttpStatus
 import dagger.hilt.android.lifecycle.HiltViewModel

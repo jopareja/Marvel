@@ -1,14 +1,12 @@
 package com.example.marvel.ui.comics.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.example.marvel.data.remote.responses.getComics.ServerComic
+import com.example.marvel.data.remote.responses.comics.ServerComic
 import com.example.marvel.databinding.ViewHolderComicBinding
 
 class ComicsAdapter: ListAdapter<ServerComic, ComicsAdapter.ComicViewHolder>(DiffCallBack) {

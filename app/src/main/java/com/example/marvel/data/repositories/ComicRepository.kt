@@ -1,6 +1,6 @@
 package com.example.marvel.data.repositories
 
-import com.example.marvel.data.remote.responses.getComics.ServerComic
+import com.example.marvel.data.remote.responses.comics.ServerComic
 import javax.inject.Inject
 
 class ComicRepository @Inject constructor(private val dataProvider: RemoteProvider) {

@@ -1,7 +1,7 @@
 package com.example.marvel.data.repositories
 
-import com.example.marvel.data.remote.responses.ServerCharacter
-import com.example.marvel.data.remote.responses.getComics.ServerComic
+import com.example.marvel.data.remote.responses.characters.ServerCharacter
+import com.example.marvel.data.remote.responses.comics.ServerComic
 
 interface RemoteProvider {
 

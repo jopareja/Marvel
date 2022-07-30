@@ -1,4 +1,4 @@
-package com.example.marvel.data.remote.responses.getComics
+package com.example.marvel.data.remote.responses.comics
 
 data class ComicDataWrapper(
     val code: Int,
