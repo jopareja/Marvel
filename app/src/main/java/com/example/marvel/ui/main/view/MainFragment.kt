@@ -1,5 +1,6 @@
 package com.example.marvel.ui.main.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +14,6 @@ import com.example.marvel.databinding.FragmentMainBinding
 import com.example.marvel.ui.main.adapter.CharacterAdapter
 import com.example.marvel.ui.main.viewmodel.HttpStatus
 import com.example.marvel.ui.main.viewmodel.MainViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,7 +62,22 @@ class MainFragment : Fragment() {
     }
 
     private fun showDialog() {
-        var message: String
+        val dialog = AlertDialog.Builder(context)
+            .setTitle(R.string.dialog_title)
+            .setMessage(provideMessage())
+            .setNeutralButton(R.string.dialog_cancel) { dialog, _ ->
+                dialog.cancel()
+            }
+            .setPositiveButton(R.string.dialog_try_again) { _, _ ->
+                viewModel.getCharacterList(paginatedValue)
+            }
+            .setCancelable(false)
+            .create()
+        dialog.show()
+    }
+
+    private fun provideMessage(): String {
+        var message: String = getString(R.string.dialog_generic_error)
         viewModel.requestStatus.observe(viewLifecycleOwner) {
             message = when (it) {
                 HttpStatus.GenericError -> getString(R.string.dialog_generic_error)
@@ -70,19 +85,7 @@ class MainFragment : Fragment() {
                 HttpStatus.HTTP500 -> getString(R.string.dialog_http500)
                 HttpStatus.IOException -> getString(R.string.dialog_io_exception)
             }
-            context?.let { context ->
-                MaterialAlertDialogBuilder(context)
-                    .setTitle(resources.getString(R.string.dialog_title))
-                    .setMessage(message)
-                    .setNeutralButton(resources.getString(R.string.dialog_cancel)) { dialog, _ ->
-                        dialog.cancel()
-                    }
-                    .setPositiveButton(resources.getString(R.string.dialog_try_again)) {dialog, _ ->
-                        dialog.cancel()
-                        viewModel.getCharacterList(paginatedValue)
-                    }
-                    .show()
-            }
         }
+        return message
     }
 }
