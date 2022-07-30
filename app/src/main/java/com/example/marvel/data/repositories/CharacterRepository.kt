@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import javax.inject.Inject
 
-class CharacterRespository @Inject constructor(private val dataProvider: RemoteProvider) {
+class CharacterRepository @Inject constructor(private val dataProvider: RemoteProvider) {
 
     suspend fun getCharacters(offset: Int): List<Character> {
         val response = dataProvider.getCharacters(offset).map { it.toCharacter() }
