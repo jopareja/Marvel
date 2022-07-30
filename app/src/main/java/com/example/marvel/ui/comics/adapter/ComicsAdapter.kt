@@ -18,7 +18,6 @@ class ComicsAdapter: ListAdapter<ServerComic, ComicsAdapter.ComicViewHolder>(Dif
 
         fun bind(comic: ServerComic) {
             Glide.with(itemView).load(comic.thumbnail.path+"."+comic.thumbnail.extension)
-                .transform(CenterCrop())
                 .into(binding.ivComics)
             binding.tvComics.text = comic.title
         }
