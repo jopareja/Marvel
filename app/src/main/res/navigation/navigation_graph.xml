@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.marvel.ui.main.view.MainFragment"
-        android:label="fragment_main"
+        android:label="Characters"
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_comicsFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/comicsFragment"
         android:name="com.example.marvel.ui.comics.view.ComicsFragment"
-        android:label="ComicsFragment" >
+        android:label="Comics" >
         <argument
             android:name="id"
             app:argType="integer" />
