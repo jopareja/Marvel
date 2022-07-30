@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
             try {
                 _characterList.value = useCase.getCharacters(offset)
             } catch (throwable: Throwable) {
-                _characterList.value = emptyList()
+                _characterList.value = useCase.getSavedCharacters() ?: emptyList()
                 when (throwable) {
                     is IOException -> _requestStatus.value = HttpStatus.IOException
                     is HttpException -> when (throwable.code()) {

@@ -10,4 +10,7 @@ class GetCharacterUseCase @Inject constructor(private val repository: CharacterR
         return repository.getCharacters(offset)
     }
 
+    fun getSavedCharacters() : List<Character>? {
+        return repository.getCharactersFromLocal()
+    }
 }
