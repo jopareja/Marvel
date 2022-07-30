@@ -17,7 +17,6 @@ class ComicsAdapter: ListAdapter<ServerComic, ComicsAdapter.ComicViewHolder>(Dif
         private var binding: ViewHolderComicBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(comic: ServerComic) {
-            Log.d("JOSE", comic.thumbnail.path+"."+comic.thumbnail.extension)
             Glide.with(itemView).load(comic.thumbnail.path+"."+comic.thumbnail.extension)
                 .transform(CenterCrop())
                 .into(binding.ivComics)

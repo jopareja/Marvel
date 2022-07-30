@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCharacter: GetCharacterUseCase
+    private val useCase: GetCharacterUseCase
 ) : ViewModel() {
 
     private val _characterList = MutableLiveData<List<Character>>()
@@ -23,10 +23,10 @@ class MainViewModel @Inject constructor(
     private val _requestStatus = MutableLiveData<HttpStatus>()
     val requestStatus: LiveData<HttpStatus> = _requestStatus
 
-    fun getCharacterList() {
+    fun getCharacterList(offset: Int) {
         viewModelScope.launch {
             try {
-                _characterList.value = getCharacter.invoke()
+                _characterList.value = useCase.getCharacters(offset)
             } catch (throwable: Throwable) {
                 _characterList.value = emptyList()
                 when (throwable) {

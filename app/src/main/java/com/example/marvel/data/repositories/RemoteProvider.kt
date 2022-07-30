@@ -5,7 +5,7 @@ import com.example.marvel.data.remote.responses.getComics.ServerComic
 
 interface RemoteProvider {
 
-    suspend fun getCharacters() : List<ServerCharacter>
+    suspend fun getCharacters(offset: Int) : List<ServerCharacter>
 
     suspend fun getComics(characterId: Int) : List<ServerComic>
 }

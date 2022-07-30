@@ -1,6 +1,5 @@
 package com.example.marvel.ui.main.view
 
-import android.os.Build.VERSION_CODES.M
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.marvel.R
 import com.example.marvel.databinding.FragmentMainBinding
 import com.example.marvel.ui.main.adapter.CharacterAdapter
@@ -23,6 +24,8 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
     private lateinit var characterAdapter: CharacterAdapter
+    private lateinit var layoutManager: GridLayoutManager
+    var paginatedValue = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,14 +33,26 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         characterAdapter = CharacterAdapter()
+        layoutManager = binding.rvMain.layoutManager as GridLayoutManager
         binding.rvMain.adapter = characterAdapter
+        binding.rvMain.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition()
+                if (lastVisibleItem >= 19) {
+                    binding.rvMain.removeOnScrollListener(this)
+                    paginatedValue+= 20
+                    viewModel.getCharacterList(paginatedValue)
+                    binding.rvMain.addOnScrollListener(this)
+                }
+            }
+        })
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getCharacterList()
-        Log.d("JOSE", "hace llamada")
+        viewModel.getCharacterList(paginatedValue)
         viewModel.characterList.observe(viewLifecycleOwner) { currentList ->
             if (currentList.isNullOrEmpty()) {
                 showDialog()
@@ -65,11 +80,10 @@ class MainFragment : Fragment() {
                     }
                     .setPositiveButton(resources.getString(R.string.dialog_try_again)) {dialog, _ ->
                         dialog.cancel()
-                        viewModel.getCharacterList()
+                        viewModel.getCharacterList(paginatedValue)
                     }
                     .show()
             }
         }
     }
-
 }

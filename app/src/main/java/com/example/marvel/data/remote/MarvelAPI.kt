@@ -11,6 +11,7 @@ interface MarvelAPI {
 
     @GET("v1/public/characters")
     suspend fun getCharacters(
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash: String

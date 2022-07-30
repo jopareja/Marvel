@@ -6,5 +6,8 @@ import javax.inject.Inject
 
 class GetCharacterUseCase @Inject constructor(private val repository: CharacterRespository) {
 
-    suspend fun invoke() : List<Character> = repository.getCharacters()
+    suspend fun getCharacters(offset: Int) : List<Character> {
+        return repository.getCharacters(offset)
+    }
+
 }

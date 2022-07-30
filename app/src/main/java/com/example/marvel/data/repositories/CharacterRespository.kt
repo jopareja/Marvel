@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class CharacterRespository @Inject constructor(private val dataProvider: RemoteProvider) {
 
-    suspend fun getCharacters(): List<Character> {
-        return dataProvider.getCharacters().map { it.toCharacter() }
+    suspend fun getCharacters(offset: Int): List<Character> {
+        return dataProvider.getCharacters(offset).map { it.toCharacter() }
     }
 }

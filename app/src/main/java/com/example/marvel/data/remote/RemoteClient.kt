@@ -13,9 +13,9 @@ import javax.inject.Inject
 
 class RemoteClient @Inject constructor(private val api: MarvelAPI) : RemoteProvider {
 
-    override suspend fun getCharacters(): List<ServerCharacter> {
+    override suspend fun getCharacters(offset: Int): List<ServerCharacter> {
         return withContext(Dispatchers.IO) {
-            val data = api.getCharacters(timeStamp, PUBLIC_KEY, toMD5())
+            val data = api.getCharacters(offset,timeStamp, PUBLIC_KEY, toMD5())
             data.body()?.data?.results ?: emptyList()
         }
     }

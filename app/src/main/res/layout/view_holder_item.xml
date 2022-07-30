@@ -8,7 +8,8 @@
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="8dp"
+    android:backgroundTint="@color/purple_200">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +18,8 @@
 
         <ImageView
             android:id="@+id/ivSuperhero"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:contentDescription="@string/superhero_image"
@@ -40,6 +41,7 @@
                 android:id="@+id/tvSuperHeroDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:maxLines="6"
                 />
 
