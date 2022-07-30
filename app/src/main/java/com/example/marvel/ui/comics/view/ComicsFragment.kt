@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.marvel.R
 import com.example.marvel.databinding.FragmentComicsBinding
 import com.example.marvel.ui.comics.ComicsViewModel
 import com.example.marvel.ui.comics.adapter.ComicsAdapter
+import com.example.marvel.ui.main.viewmodel.HttpStatus
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,7 +38,11 @@ class ComicsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getComics(provideId())
         viewModel.comicList.observe(viewLifecycleOwner) { currentList ->
-            comicsAdapter.submitList(currentList)
+            if (currentList.isNullOrEmpty()) {
+                showDialog()
+            } else {
+                comicsAdapter.submitList(currentList)
+            }
         }
     }
 
@@ -47,6 +54,31 @@ class ComicsFragment : Fragment() {
             }
         }
         return characterId
+    }
+
+    private fun showDialog() {
+        var message: String
+        viewModel.requestStatus.observe(viewLifecycleOwner) {
+            message = when (it) {
+                HttpStatus.GenericError -> getString(R.string.dialog_generic_error)
+                HttpStatus.HTTP400 -> getString(R.string.dialog_http400)
+                HttpStatus.HTTP500 -> getString(R.string.dialog_http500)
+                HttpStatus.IOException -> getString(R.string.dialog_io_exception)
+            }
+            context?.let { context ->
+                MaterialAlertDialogBuilder(context)
+                    .setTitle(resources.getString(R.string.dialog_title))
+                    .setMessage(message)
+                    .setNeutralButton(resources.getString(R.string.dialog_cancel)) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .setPositiveButton(resources.getString(R.string.dialog_try_again)) { dialog, _ ->
+                        dialog.cancel()
+                        viewModel.getComics(provideId())
+                    }
+                    .show()
+            }
+        }
     }
 
     companion object {
