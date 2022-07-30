@@ -14,6 +14,5 @@ fun ServerCharacter.toCharacter(): Character = Character(
 
 fun ServerComic.toComic(): Comic = Comic(
     imageUrl = thumbnail.path+"."+thumbnail.extension,
-    title = title,
-    description = description
+    title = title
 )

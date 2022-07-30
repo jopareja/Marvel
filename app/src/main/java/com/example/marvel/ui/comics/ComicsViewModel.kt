@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marvel.data.remote.responses.comics.ServerComic
+import com.example.marvel.domain.data.Comic
 import com.example.marvel.domain.usecase.GetComicsUseCase
 import com.example.marvel.ui.main.viewmodel.HttpStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ComicsViewModel @Inject constructor(private val useCase: GetComicsUseCase): ViewModel() {
 
-    private val _comicList = MutableLiveData<List<ServerComic>>()
-    val comicList: LiveData<List<ServerComic>> = _comicList
+    private val _comicList = MutableLiveData<List<Comic>>()
+    val comicList: LiveData<List<Comic>> = _comicList
 
     private val _requestStatus = MutableLiveData<HttpStatus>()
     val requestStatus: LiveData<HttpStatus> = _requestStatus
@@ -25,7 +26,8 @@ class ComicsViewModel @Inject constructor(private val useCase: GetComicsUseCase)
     fun getComics(characterId: Int) {
         viewModelScope.launch {
             try {
-                _comicList.value = useCase.getComics(characterId)
+                val response = useCase.getComics(characterId)
+                _comicList.value = response
             } catch (throwable: Throwable) {
                 _comicList.value = emptyList()
                 when (throwable) {

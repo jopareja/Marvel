@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.marvel.data.remote.responses.comics.ServerComic
 import com.example.marvel.databinding.ViewHolderComicBinding
+import com.example.marvel.domain.data.Comic
 
-class ComicsAdapter: ListAdapter<ServerComic, ComicsAdapter.ComicViewHolder>(DiffCallBack) {
+class ComicsAdapter: ListAdapter<Comic, ComicsAdapter.ComicViewHolder>(DiffCallBack) {
 
     class ComicViewHolder(
         private var binding: ViewHolderComicBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(comic: ServerComic) {
-            Glide.with(itemView).load(comic.thumbnail.path+"."+comic.thumbnail.extension)
-                .into(binding.ivComics)
+        fun bind(comic: Comic) {
+            Glide.with(itemView).load(comic.imageUrl).into(binding.ivComics)
             binding.tvComics.text = comic.title
         }
     }
@@ -31,12 +31,12 @@ class ComicsAdapter: ListAdapter<ServerComic, ComicsAdapter.ComicViewHolder>(Dif
         holder.bind(comic)
     }
 
-    companion object DiffCallBack : DiffUtil.ItemCallback<ServerComic>() {
-        override fun areItemsTheSame(oldItem: ServerComic, newItem: ServerComic): Boolean {
+    companion object DiffCallBack : DiffUtil.ItemCallback<Comic>() {
+        override fun areItemsTheSame(oldItem: Comic, newItem: Comic): Boolean {
             return oldItem.title == newItem.title
         }
 
-        override fun areContentsTheSame(oldItem: ServerComic, newItem: ServerComic): Boolean {
+        override fun areContentsTheSame(oldItem: Comic, newItem: Comic): Boolean {
             return  oldItem.title == newItem.title
         }
     }
