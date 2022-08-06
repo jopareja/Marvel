@@ -1,7 +1,9 @@
 package com.example.marvel.di
 
+import com.example.marvel.data.local.LocalClient
 import com.example.marvel.data.remote.MarvelAPI
 import com.example.marvel.data.remote.RemoteClient
+import com.example.marvel.data.repositories.LocalProvider
 import com.example.marvel.data.repositories.RemoteProvider
 import dagger.Module
 import dagger.Provides
@@ -38,5 +40,10 @@ object DataRemoteModule {
         return RemoteClient(api)
     }
 
+    @Singleton
+    @Provides
+    fun provideLocalInterface() : LocalProvider {
+        return LocalClient
+    }
 
 }
