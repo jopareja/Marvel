@@ -12,4 +12,5 @@
     <string name="dialog_try_again">Reintentar</string>
     <string name="user_data">com.example.marvel.USER_DATA</string>
     <string name="character_null_description">La descripción de este personaje no se encuentra disponible en estos momentos.</string>
+    <string name="default_notification_channel_id">Notificaciones</string>
 </resources>
