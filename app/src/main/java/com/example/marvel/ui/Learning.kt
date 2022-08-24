@@ -1,7 +1,7 @@
 package com.example.marvel.ui
 
 object Learning {
-    /** ARCHITECTURE PRINCIPLES
+    /**  ARCHITECTURE PRINCIPLES
      *
      * ---Separation of Concerns---
      * + UI Classes should only contain logic that handles UI.
