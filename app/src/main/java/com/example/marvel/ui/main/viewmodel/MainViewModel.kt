@@ -26,8 +26,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                _uiState.update {
-                    it.copy(isLoading = false, characterList = useCase.getCharacters(offset)) }
+                _uiState.update { it.copy(isLoading = false, characterList = useCase.getCharacters(offset))}
             } catch (throwable: Throwable) {
                 _uiState.update {
                     it.copy(isLoading = false, characterList = useCase.getSavedCharacters() ?: emptyList()) }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,10 @@ import com.example.marvel.ui.main.adapter.CharacterAdapter
 import com.example.marvel.ui.main.viewmodel.HttpStatus
 import com.example.marvel.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -57,12 +62,12 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getCharacterList(paginatedValue)
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.map{it}.distinctUntilChanged().collect { state ->
+                    binding.pbMain.isVisible = state.isLoading
                     if (state.characterList.isEmpty()) {
-                        //TODO
-                        showDialog(state.requestStatus.toString())
+                        showDialog("HOLA")
                     } else {
                         characterAdapter.submitList(state.characterList)
                     }
