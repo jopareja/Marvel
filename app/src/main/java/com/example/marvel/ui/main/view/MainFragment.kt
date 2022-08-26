@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvel.R
@@ -15,6 +18,7 @@ import com.example.marvel.ui.main.adapter.CharacterAdapter
 import com.example.marvel.ui.main.viewmodel.HttpStatus
 import com.example.marvel.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -52,19 +56,25 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getCharacterList(paginatedValue)
-        viewModel.characterList.observe(viewLifecycleOwner) { currentList ->
-            if (currentList.isNullOrEmpty()) {
-                showDialog()
-            } else {
-                characterAdapter.submitList(currentList)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    if (state.characterList.isEmpty()) {
+                        //TODO
+                        showDialog(state.requestStatus.toString())
+                    } else {
+                        characterAdapter.submitList(state.characterList)
+                    }
+                }
             }
         }
     }
 
-    private fun showDialog() {
+    private fun showDialog(message: String) {
         val dialog = AlertDialog.Builder(context)
             .setTitle(R.string.dialog_title)
-            .setMessage(provideMessage())
+            .setMessage(message)
             .setNeutralButton(R.string.dialog_cancel) { dialog, _ ->
                 dialog.cancel()
             }
@@ -74,18 +84,5 @@ class MainFragment : Fragment() {
             .setCancelable(false)
             .create()
         dialog.show()
-    }
-
-    private fun provideMessage(): String {
-        var message: String = getString(R.string.dialog_generic_error)
-        viewModel.requestStatus.observe(viewLifecycleOwner) {
-            message = when (it) {
-                HttpStatus.GenericError -> getString(R.string.dialog_generic_error)
-                HttpStatus.HTTP400 -> getString(R.string.dialog_http400)
-                HttpStatus.HTTP500 -> getString(R.string.dialog_http500)
-                HttpStatus.IOException -> getString(R.string.dialog_io_exception)
-            }
-        }
-        return message
     }
 }
