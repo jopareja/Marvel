@@ -6,24 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvel.R
 import com.example.marvel.databinding.FragmentMainBinding
 import com.example.marvel.ui.main.adapter.CharacterAdapter
-import com.example.marvel.ui.main.viewmodel.HttpStatus
 import com.example.marvel.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -61,19 +51,11 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getCharacterList(paginatedValue)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.map{it}.distinctUntilChanged().collect { state ->
-                    binding.pbMain.isVisible = state.isLoading
-                    if (state.characterList.isEmpty()) {
-                        showDialog("HOLA")
-                    } else {
-                        characterAdapter.submitList(state.characterList)
-                    }
-                }
-            }
+        viewModel.uiState.observe(viewLifecycleOwner) {state ->
+            if (state.isLoading) binding.pbMain.visibility = View.VISIBLE else binding.pbMain.visibility = View.GONE
+            if (state.isError) state.requestMessage?.let { showDialog(it) } else characterAdapter.submitList(state.characterList)
         }
+
     }
 
     private fun showDialog(message: String) {
