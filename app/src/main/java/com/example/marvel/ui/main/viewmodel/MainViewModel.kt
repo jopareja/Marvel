@@ -21,28 +21,28 @@ class MainViewModel @Inject constructor(
     private val useCase: GetCharacterUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData(MainUiState())
-    val uiState: LiveData<MainUiState> = _uiState
+    private val _uiState = MutableStateFlow(MainUiState())
+    val uiState: StateFlow<MainUiState> = _uiState
 
     fun getCharacterList(offset: Int) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value?.copy(isLoading = true)
+            _uiState.value = _uiState.value.copy(isLoading = true)
             try {
-                _uiState.value = _uiState.value?.copy(
+                _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     isError = false,
                     characterList = useCase.getCharacters(offset))
             } catch (throwable: Throwable) {
-                _uiState.value = _uiState.value?.copy(
+                _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     isError = true,
                     characterList = useCase.getSavedCharacters() ?: emptyList())
                 when (throwable) {
-                    is IOException -> _uiState.value = _uiState.value?.copy(requestMessage = "No Internet")
+                    is IOException -> _uiState.value = _uiState.value.copy(requestMessage = "No Internet")
                     is HttpException -> when (throwable.code()) {
-                        in 400..499 -> _uiState.value = _uiState.value?.copy(requestMessage = "HTTP400")
-                        in 500..599 -> _uiState.value = _uiState.value?.copy(requestMessage = "HTTP500")
-                        else -> _uiState.value = _uiState.value?.copy(requestMessage = "HTTP Exception")
+                        in 400..499 -> _uiState.value = _uiState.value.copy(requestMessage = "HTTP400")
+                        in 500..599 -> _uiState.value = _uiState.value.copy(requestMessage = "HTTP500")
+                        else -> _uiState.value = _uiState.value.copy(requestMessage = "HTTP Exception")
                     }
                 }
             }
