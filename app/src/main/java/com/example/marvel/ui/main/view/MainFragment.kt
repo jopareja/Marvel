@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvel.R
 import com.example.marvel.databinding.FragmentMainBinding
+import com.example.marvel.domain.data.Message
 import com.example.marvel.ui.main.adapter.CharacterAdapter
 import com.example.marvel.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,12 +60,10 @@ class MainFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {state ->
                     if (state.isLoading) binding.pbMain.visibility = View.VISIBLE else binding.pbMain.visibility = View.GONE
-                    if (state.isError) state.requestMessage?.let { showDialog(it) } else characterAdapter.submitList(state.characterList)
+                    if (state.isError) showDialog(provideMessage(state.userMessage)) else characterAdapter.submitList(state.characterList)
                 }
             }
         }
-
-
     }
 
     private fun showDialog(message: String) {
@@ -80,5 +79,9 @@ class MainFragment : Fragment() {
             .setCancelable(false)
             .create()
         dialog.show()
+    }
+
+    private fun provideMessage(message: Message) : String {
+
     }
 }
