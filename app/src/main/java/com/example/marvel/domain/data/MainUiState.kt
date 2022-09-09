@@ -6,5 +6,5 @@ data class MainUiState(
     val isLoading: Boolean = false,
     val characterList: List<Character> = emptyList(),
     val isError: Boolean = false,
-    val requestMessage: String? = null
+    val userMessage: Message = Message.Empty
 )
