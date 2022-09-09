@@ -30,7 +30,18 @@ object Learning {
     /** RECOMMENDED APP ARCHITECTURE
      *  ---THE UI LAYER---
      *     + UI ELEMENTS that render data on screen. (Activities).
+     *         The UI notifies the ViewModel of user events.
+     *         When consuming observable data holders, take the lifecycle of the UI into consideration.
+     *         The UI should not be observing the state when the view isn’t being displayed to the user. (repeatOnLifecycle(Lifecycle.State.STARTED))
+     *
      *     + STATE HOLDERS, hold data and expose it to UI. (ViewModels).
+     *          The ViewModel handles the user actions and updates the state.
+     *          A UI state object should handle states that are related to each other
+     *
+     *     + TYPES OF LOGIC
+     *         Business Logic: product requirements for app data (in domain layer, never in UI layer).
+     *         UI Logic: how to display state changes on the screen.
+     *         UI logic that involves UI types like Context, should live in the UI, not in the ViewModel.
      *
      *
      *  ---THE DOMAIN LAYER--- simplify and reuse interactions between UI and DATA.

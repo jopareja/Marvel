@@ -16,6 +16,7 @@ import com.example.marvel.R
 import com.example.marvel.databinding.FragmentMainBinding
 import com.example.marvel.ui.main.adapter.CharacterAdapter
 import com.example.marvel.ui.main.viewmodel.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -59,7 +60,7 @@ class MainFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {state ->
                     if (state.isLoading) binding.pbMain.visibility = View.VISIBLE else binding.pbMain.visibility = View.GONE
-                    if (state.isError) state.requestMessage?.let { showDialog(it) } else characterAdapter.submitList(state.characterList)
+                    if (state.isError) state.requestMessage?.let { showSnackbar(it) } else characterAdapter.submitList(state.characterList)
                 }
             }
         }
@@ -67,18 +68,7 @@ class MainFragment : Fragment() {
 
     }
 
-    private fun showDialog(message: String) {
-        val dialog = AlertDialog.Builder(context)
-            .setTitle(R.string.dialog_title)
-            .setMessage(message)
-            .setNeutralButton(R.string.dialog_cancel) { dialog, _ ->
-                dialog.cancel()
-            }
-            .setPositiveButton(R.string.dialog_try_again) { _, _ ->
-                viewModel.getCharacterList(paginatedValue)
-            }
-            .setCancelable(false)
-            .create()
-        dialog.show()
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 }
