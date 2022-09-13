@@ -2,7 +2,8 @@ package com.example.marvel.data.remote
 
 import com.example.marvel.data.remote.responses.characters.ServerCharacter
 import com.example.marvel.data.remote.responses.comics.ServerComic
-import com.example.marvel.data.repositories.RemoteProvider
+import com.example.marvel.data.repositories.RemoteCharacterDataSource
+import com.example.marvel.data.repositories.RemoteComicDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.math.BigInteger
@@ -10,7 +11,7 @@ import java.security.MessageDigest
 import java.sql.Timestamp
 import javax.inject.Inject
 
-class RemoteClient @Inject constructor(private val api: MarvelAPI) : RemoteProvider {
+class RemoteClient @Inject constructor(private val api: MarvelAPI) : RemoteComicDataSource, RemoteCharacterDataSource {
 
     override suspend fun getCharacters(offset: Int): List<ServerCharacter> {
         return withContext(Dispatchers.IO) {

@@ -4,8 +4,8 @@ import com.example.marvel.domain.data.Character
 import javax.inject.Inject
 
 class CharacterRepository @Inject constructor(
-    private val remoteCharacterDataSource: RemoteProvider,
-    private val localCharacterDataSource: LocalProvider) {
+    private val remoteCharacterDataSource: RemoteCharacterDataSource,
+    private val localCharacterDataSource: LocalCharacterDataSource) {
 
     suspend fun getCharacters(offset: Int): List<Character> {
         val response = remoteCharacterDataSource.getCharacters(offset).map { it.toCharacter() }

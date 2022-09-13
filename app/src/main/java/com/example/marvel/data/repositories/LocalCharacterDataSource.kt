@@ -2,7 +2,7 @@ package com.example.marvel.data.repositories
 
 import com.example.marvel.domain.data.Character
 
-interface LocalProvider {
+interface LocalCharacterDataSource {
 
     suspend fun getCharactersFromLocal() : List<Character>?
 

@@ -1,7 +1,7 @@
 package com.example.marvel.ui.main.view
 
-import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marvel.R
 import com.example.marvel.databinding.FragmentMainBinding
 import com.example.marvel.ui.main.adapter.CharacterAdapter
 import com.example.marvel.ui.main.viewmodel.MainViewModel
@@ -60,7 +59,8 @@ class MainFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {state ->
                     if (state.isLoading) binding.pbMain.visibility = View.VISIBLE else binding.pbMain.visibility = View.GONE
-                    if (state.isError) state.requestMessage?.let { showSnackbar(it) } else characterAdapter.submitList(state.characterList)
+                    if (state.isError) {showSnackbar(state.userMessage)}
+                    characterAdapter.submitList(state.characterList)
                 }
             }
         }
@@ -68,7 +68,7 @@ class MainFragment : Fragment() {
 
     }
 
-    private fun showSnackbar(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    private fun showSnackbar(message: String?) {
+        Snackbar.make(binding.root, message!!, Snackbar.LENGTH_LONG).show()
     }
 }

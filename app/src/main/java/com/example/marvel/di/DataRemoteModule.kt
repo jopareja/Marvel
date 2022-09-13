@@ -3,8 +3,9 @@ package com.example.marvel.di
 import com.example.marvel.data.local.LocalClient
 import com.example.marvel.data.remote.MarvelAPI
 import com.example.marvel.data.remote.RemoteClient
-import com.example.marvel.data.repositories.LocalProvider
-import com.example.marvel.data.repositories.RemoteProvider
+import com.example.marvel.data.repositories.LocalCharacterDataSource
+import com.example.marvel.data.repositories.RemoteCharacterDataSource
+import com.example.marvel.data.repositories.RemoteComicDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataRemoteModule {
 
+    //Provides API to RemoteClient
     @Singleton
     @Provides
     fun provideAPI(retrofit: Retrofit) : MarvelAPI {
@@ -25,6 +27,7 @@ object DataRemoteModule {
 
     private const val BASE_URL = "https://gateway.marvel.com/"
 
+    //Provides Retrofit to API
     @Singleton
     @Provides
     fun provideRetrofit() : Retrofit {
@@ -34,15 +37,23 @@ object DataRemoteModule {
             .build()
     }
 
+    //Provides to ComicRepository
     @Singleton
     @Provides
-    fun provideRemoteInterface(api: MarvelAPI) : RemoteProvider {
+    fun provideRemoteComicInterface(api: MarvelAPI) : RemoteComicDataSource {
+        return RemoteClient(api)
+    }
+
+    //Provides to CharacterRepository
+    @Singleton
+    @Provides
+    fun provideRemoteCharacterInterface(api: MarvelAPI) : RemoteCharacterDataSource {
         return RemoteClient(api)
     }
 
     @Singleton
     @Provides
-    fun provideLocalInterface() : LocalProvider {
+    fun provideLocalInterface() : LocalCharacterDataSource {
         return LocalClient
     }
 

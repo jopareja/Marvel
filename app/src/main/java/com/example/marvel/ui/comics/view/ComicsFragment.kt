@@ -57,12 +57,12 @@ class ComicsFragment : Fragment() {
 
     private fun showDialog() {
         val dialog = AlertDialog.Builder(context)
-            .setTitle(R.string.dialog_title)
+            .setTitle(R.string.alert_title)
             .setMessage(provideMessage())
-            .setNeutralButton(R.string.dialog_cancel) { dialog, _ ->
+            .setNeutralButton(R.string.alert_cancel) { dialog, _ ->
                 dialog.cancel()
             }
-            .setPositiveButton(R.string.dialog_try_again) { _, _ ->
+            .setPositiveButton(R.string.alert_try_again) { _, _ ->
                 viewModel.getComics(provideId())
             }
             .setCancelable(false)
@@ -71,13 +71,13 @@ class ComicsFragment : Fragment() {
     }
 
     private fun provideMessage(): String {
-        var message: String = getString(R.string.dialog_generic_error)
+        var message: String = getString(R.string.message_generic_error)
         viewModel.requestStatus.observe(viewLifecycleOwner) {
             message = when (it) {
-                HttpStatus.GenericError -> getString(R.string.dialog_generic_error)
-                HttpStatus.HTTP400 -> getString(R.string.dialog_http400)
-                HttpStatus.HTTP500 -> getString(R.string.dialog_http500)
-                HttpStatus.IOException -> getString(R.string.dialog_io_exception)
+                HttpStatus.GenericError -> getString(R.string.message_generic_error)
+                HttpStatus.HTTP400 -> getString(R.string.message_http400)
+                HttpStatus.HTTP500 -> getString(R.string.message_http500)
+                HttpStatus.IOException -> getString(R.string.message_io_exception)
             }
         }
         return message

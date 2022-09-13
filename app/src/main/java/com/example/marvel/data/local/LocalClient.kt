@@ -3,13 +3,13 @@ package com.example.marvel.data.local
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.marvel.data.repositories.LocalProvider
+import com.example.marvel.data.repositories.LocalCharacterDataSource
 import com.example.marvel.domain.data.Character
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-object LocalClient : LocalProvider {
+object LocalClient : LocalCharacterDataSource {
 
     private lateinit var preferences: SharedPreferences
     private const val PREFERENCES_FILE_NAME = "PREFERENCES_FILE_NAME"

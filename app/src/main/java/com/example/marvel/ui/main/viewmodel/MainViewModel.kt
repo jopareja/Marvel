@@ -1,5 +1,6 @@
 package com.example.marvel.ui.main.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marvel.domain.data.MainUiState
@@ -24,7 +25,7 @@ class MainViewModel @Inject constructor(
 
     fun getCharacterList(offset: Int) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, isError = false)
+            _uiState.value = _uiState.value.copy(isLoading = true, isError = false, userMessage = "Hola")
             try {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
@@ -36,11 +37,11 @@ class MainViewModel @Inject constructor(
                     isError = true,
                     characterList = useCase.getSavedCharacters() ?: emptyList())
                 when (throwable) {
-                    is IOException -> _uiState.value = _uiState.value.copy(userMessage = Message.NoInternet)
+                    is IOException -> _uiState.value = _uiState.value.copy(userMessage = "NoInternet")
                     is HttpException -> when (throwable.code()) {
-                        in 400..499 -> _uiState.value = _uiState.value.copy(userMessage = Message.Http400)
-                        in 500..599 -> _uiState.value = _uiState.value.copy(userMessage = Message.Http500)
-                        else -> _uiState.value = _uiState.value.copy(userMessage = Message.Exception)
+                        in 400..499 -> _uiState.value = _uiState.value.copy(userMessage = "Http400")
+                        in 500..599 -> _uiState.value = _uiState.value.copy(userMessage = "Http500")
+                        else -> _uiState.value = _uiState.value.copy(userMessage = "Exception")
                     }
                 }
             }
