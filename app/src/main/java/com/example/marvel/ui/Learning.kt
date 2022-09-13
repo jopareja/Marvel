@@ -53,6 +53,8 @@ object Learning {
      *
      *  ---THE DATA LAYER--- contains the logic of app and exposes app data.
      *     + business logic. Rules of how your app creates, stores, and changes data. Gives value to your App.
+     *     Calling data from repositories and data sources should be MAIN SAFE.
+     *
      *     + REPOSITORIES (You should create a repository class for each diff type of data).
      *                    (Exposing data to the rest of the app).
      *                    (Resolving conflicts between multiple data sources).
