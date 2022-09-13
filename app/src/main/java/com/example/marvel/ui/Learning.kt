@@ -44,19 +44,26 @@ object Learning {
      *         UI logic that involves UI types like Context, should live in the UI, not in the ViewModel.
      *
      *
+     *
      *  ---THE DOMAIN LAYER--- simplify and reuse interactions between UI and DATA.
      *     + encapsulates business logic that is reused by multiple ViewModels
      *     + USE CASES. each of them should have responsibility over a single functionality
      *
+     *
+     *
      *  ---THE DATA LAYER--- contains the logic of app and exposes app data.
-     *     + business logic. Rules of how your app creates, stores, and changes data.
+     *     + business logic. Rules of how your app creates, stores, and changes data. Gives value to your App.
      *     + REPOSITORIES (You should create a repository class for each diff type of data).
      *                    (Exposing data to the rest of the app).
      *                    (Resolving conflicts between multiple data sources).
      *                    (Abstracting sources of data from the rest of the app).
      *                    for Example: MoviesRepository for data related to movies,
      *                    PaymentsRepository for payments data.
-     *     + DATA SOURCES (Each data source class works with only one source of data).
+     *
+     *
+     *     + DATA SOURCES  Responsible for providing data that app needs to function.
+     *                    (Each data source class works with only one source of data).
+     *                        "LocalUsersDataSource" or "RemoteMoviesDataSource".
      *                    (It can be a network source or a local database).
      *
      */
