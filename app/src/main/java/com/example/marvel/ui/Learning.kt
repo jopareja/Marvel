@@ -62,6 +62,9 @@ object Learning {
      *                    for Example: MoviesRepository for data related to movies,
      *                    PaymentsRepository for payments data.
      *
+     *                    REPOS SHOULD EXPOSE CRUD SUSPEND FUNCTIONS
+     *                    REPOS SHOULD EXPOSE FLOWS
+     *
      *
      *     + DATA SOURCES  Responsible for providing data that app needs to function.
      *                    (Each data source class works with only one source of data).
